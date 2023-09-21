@@ -17,7 +17,6 @@ from .models import *
 
 # Authentication
 
-
 class RegisterUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
@@ -77,22 +76,36 @@ class LogoutView(APIView):
 
 # CRUD Operations
 
-class ListTask(generics.ListAPIView):  # Read
+class ListTask(generics.ListAPIView):   # Get list of all the tasks
+    # permission_classes = (IsAuthenticated,)
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+
+class TaskById(generics.GenericAPIView):    # Get task details by ID
+    permission_classes = (IsAuthenticated,)
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def get(self, request, pk):
+        queryset = self.get_queryset().filter(id=pk)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class UpdateTask(generics.RetrieveUpdateAPIView):  # Update task by ID
     permission_classes = (IsAuthenticated,)
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
 
-class UpdateTask(generics.RetrieveUpdateAPIView):  # Update
+class CreateTask(generics.CreateAPIView):  # Create a new task
+    permission_classes = (IsAuthenticated,)
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
 
-class CreateTask(generics.CreateAPIView):  # Create
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-
-
-class DeleteTask(generics.DestroyAPIView):  # Delete
+class DeleteTask(generics.DestroyAPIView):  # Delete task
+    permission_classes = (IsAuthenticated,)
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
