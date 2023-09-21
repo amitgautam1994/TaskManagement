@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os, dotenv
+import os
+import dotenv
 from pathlib import Path
 
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'tasks',
 ]
 
@@ -79,14 +81,14 @@ WSGI_APPLICATION = 'TaskManagement.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-   'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'), #here
-        'USER': os.environ.get('DB_USER'), #here
-        'PASSWORD': os.environ.get('DB_PASS'), #here
+        'NAME': os.environ.get('DB_NAME'),  # here
+        'USER': os.environ.get('DB_USER'),  # here
+        'PASSWORD': os.environ.get('DB_PASS'),  # here
         'DB_HOST': os.environ.get('DB_PASS'),
         'PORT': '5432',
-   }
+    }
 }
 
 
